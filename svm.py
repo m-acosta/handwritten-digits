@@ -13,7 +13,6 @@
 
 #importing some Python libraries
 from sklearn import svm
-from sklearn.metrics import accuracy_score
 import numpy as np
 import pandas as pd
 
@@ -52,13 +51,15 @@ for iterable_c in c:
                 #hint: to iterate over two collections simultaneously, use zip()
                 #Example. for (x_testSample, y_testSample) in zip(X_test, y_test):
                 #to make a prediction do: clf.predict([x_testSample])
-                prediction = []
+                positives = 0
                 for (x_testSample, y_testSample) in zip(X_test, y_test):
-                    prediction.append(clf.predict([x_testSample])[0])
+                    if clf.predict([x_testSample])[0] == y_testSample:
+                        positives += 1
+
+                current_accuracy = positives / len(y_test)
 
                 #check if the calculated accuracy is higher than the previously one calculated. If so, update the highest accuracy and print it together
                 #with the SVM hyperparameters. Example: "Highest SVM accuracy so far: 0.92, Parameters: a=1, degree=2, kernel= poly, decision_function_shape = 'ovo'"
-                current_accuracy = accuracy_score(y_test, prediction)
                 if current_accuracy > high_accuracy:
                     print('\nHighest SVM accuracy so far: {:.3f}, Parameters: c={}, degree={}, kernel={}, decision_function_shape={}'
                           .format(current_accuracy, iterable_c, iterable_deg, iterable_ker, iterable_shape))
